@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -82,15 +83,18 @@ fun ListeCours(modifier: Modifier,
 
                navController: NavHostController = rememberNavController(),) {
 
-//    LazyColumn (modifier = modifier.fillMaxSize()){
-//        items(listeCours) { cours ->
-////            Card {
-//////                Text(text = cours.nomCours,
-////                    modifier = Modifier
-////                )
-//            }
-//        }
-//    }
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        items(listeCours.size) { index ->
+            val cours = listeCours[index]
+            Card(modifier = Modifier.padding(8.dp)) {
+                Text(
+                    text = cours.nom,
+                    modifier = Modifier.padding(16.dp)
+                )
+
+            }
+        }
+    }
 
 }
 

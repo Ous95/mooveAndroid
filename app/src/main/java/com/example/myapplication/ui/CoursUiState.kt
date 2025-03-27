@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.asStateFlow
 
 data class CoursUiState(
 
-    val id: Int=0,
-    val nom: String="test",
-    val description: String="test",
-    val prix: Double=0.0,
+    val id: Int,
+    val nom: String,
+    val description: String,
+    val prix: Double,
 
 
 )
