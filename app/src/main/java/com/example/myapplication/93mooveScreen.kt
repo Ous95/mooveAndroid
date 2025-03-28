@@ -38,6 +38,8 @@ import com.example.myapplication.ui.CoursUiState
 import com.example.myapplication.ui.CoursViewModel
 import com.example.myapplication.ui.Datasource
 import com.example.myapplication.ui.PokeViewModel
+import com.example.myapplication.ui.SportUiState
+import com.example.myapplication.ui.SportViewModel
 import kotlin.system.*
 import kotlinx.coroutines.*
 
@@ -74,10 +76,17 @@ fun mooveApp(){
 //                Datasource.retourneListeCours(),
 //                navController=navController
 //            )
-            ListePokemon(
+//            ListePokemon(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .wrapContentSize(Alignment.Center),
+//                navController=navController
+//            )
+            ListeSport(
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center),
+
                 navController=navController
             )
         }
@@ -88,6 +97,39 @@ fun mooveApp(){
 
     }
 
+
+
+///////////////////////// Liste Sport ///////////////////////////////////////////////////////
+//@Composable
+@Composable
+fun ListeSport(
+    modifier: Modifier,
+    sportViewModel: SportViewModel = viewModel(),
+    navController: NavHostController = rememberNavController()
+) {
+    val listeSport by sportViewModel.sportUi.collectAsState()
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Liste des Sport", modifier = Modifier.align(Alignment.CenterHorizontally))
+        LazyColumn {
+            items(listeSport.size) { index ->
+                val sport = listeSport[index]
+                Card(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = sport.nom,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+
+/////////////////////: Page Accueil ///////////////////////////////////////////////////////
 @Composable
 fun PageAccueil(
     modifier: Modifier,
@@ -129,7 +171,7 @@ fun PageAccueil(
     }
 
 }
-
+////////////////////////// FORMULAIRE LOGIN ///////////////////////////////////////////////////////
 @Composable
 fun FormulaireLogin(
     modifier: Modifier,
@@ -167,9 +209,11 @@ fun FormulaireLogin(
     }
 }
 
+
+//////////////////////////// ListePOkemon ///////////////////////////////////////////////////////
 @Composable
 fun ListePokemon(modifier: Modifier = Modifier,
-                 pokeViewModel: PokeViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+                 pokeViewModel: PokeViewModel = viewModel(),
                  navController: NavHostController = rememberNavController()) {
     val listePokemon by pokeViewModel.pokeUi.collectAsState()
     Column(
@@ -189,6 +233,8 @@ fun ListePokemon(modifier: Modifier = Modifier,
             }
         }
 
+
+///////////////////// Liste COurs //////////////
         @Composable
         fun ListeCours(
             modifier: Modifier,
