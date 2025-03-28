@@ -37,6 +37,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.CoursUiState
 import com.example.myapplication.ui.CoursViewModel
 import com.example.myapplication.ui.Datasource
+import com.example.myapplication.ui.PokeViewModel
+import kotlin.system.*
+import kotlinx.coroutines.*
 
 
 @Composable
@@ -64,77 +67,33 @@ fun mooveApp(){
             )
         }
         composable(route = mooveScreen.AfficherCours.name) {
-            ListeCours(
+//            ListeCours(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .wrapContentSize(Alignment.Center),
+//                Datasource.retourneListeCours(),
+//                navController=navController
+//            )
+            ListePokemon(
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center),
-                Datasource.retourneListeCours(),
                 navController=navController
             )
         }
     }
 
 
+
+
     }
 
 @Composable
-fun ListeCours(modifier: Modifier,
-               listeCours: List<CoursUiState>,
-
-               navController: NavHostController = rememberNavController(),) {
-
-    LazyColumn(modifier = modifier.fillMaxSize()) {
-        items(listeCours.size) { index ->
-            val cours = listeCours[index]
-            Card(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    text = cours.nom,
-                    modifier = Modifier.padding(16.dp)
-                )
-
-            }
-        }
-    }
-
-}
-
-@Composable
-fun FormulaireLogin(modifier: Modifier,
-                    navController: NavHostController = rememberNavController(),
+fun PageAccueil(
+    modifier: Modifier,
+    coursViewModel: CoursViewModel = viewModel(),
+    navController: NavHostController = rememberNavController()
 ) {
-    var login by remember { mutableStateOf("") }
-
-    val backgroundColor = if (login.length >= 10) {
-        Color.Red
-    } else {
-        Color.White
-    }
-
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-
-        TextField(
-            label = { Text("Entrez votre login") },
-            modifier = Modifier.background(backgroundColor),
-            value = login,
-            onValueChange = { login = it }
-            ,colors = TextFieldDefaults.colors(unfocusedContainerColor = backgroundColor,focusedContainerColor=backgroundColor),
-
-        )
-        Button(onClick = {}) {
-            Text("Valider")
-        }
-
-
-    }
-}
-
-@Composable
-fun PageAccueil(modifier: Modifier,
-                coursViewModel: CoursViewModel = viewModel(),
-                navController: NavHostController = rememberNavController()) {
     val coursUiState by coursViewModel.uiState.collectAsState()
     val imageModifier = Modifier
         .size(200.dp)
@@ -157,20 +116,105 @@ fun PageAccueil(modifier: Modifier,
             fontSize = 36.sp,
             lineHeight = 116.sp,
         )
-        Button(onClick = {navController.navigate(mooveScreen.AfficherCours.name)}) {
+        Button(onClick = { navController.navigate(mooveScreen.AfficherCours.name) }) {
             Text("Consulter les cours")
         }
 
 
-        Button(onClick = {navController.navigate(mooveScreen.Login.name)}) {
+        Button(onClick = { navController.navigate(mooveScreen.Login.name) }) {
             Text("Se connecter")
         }
 
 
     }
 
+}
+
+@Composable
+fun FormulaireLogin(
+    modifier: Modifier,
+    navController: NavHostController = rememberNavController(),
+) {
+    var login by remember { mutableStateOf("") }
+
+    val backgroundColor = if (login.length >= 10) {
+        Color.Red
+    } else {
+        Color.White
+    }
+
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+
+        TextField(
+            label = { Text("Entrez votre login") },
+            modifier = Modifier.background(backgroundColor),
+            value = login,
+            onValueChange = { login = it },
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = backgroundColor,
+                focusedContainerColor = backgroundColor
+            ),
+
+            )
+        Button(onClick = {}) {
+            Text("Valider")
         }
 
+
+    }
+}
+
+@Composable
+fun ListePokemon(modifier: Modifier = Modifier,
+                 pokeViewModel: PokeViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+                 navController: NavHostController = rememberNavController()) {
+    val listePokemon by pokeViewModel.pokeUi.collectAsState()
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Liste des Pokémon", modifier = Modifier.align(Alignment.CenterHorizontally))
+        LazyColumn {
+            items(listePokemon.size) { index ->
+                val pokemon = listePokemon[index]
+                Card(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = pokemon.name,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+
+        @Composable
+        fun ListeCours(
+            modifier: Modifier,
+            listeCours: List<CoursUiState>,
+
+            navController: NavHostController = rememberNavController(),
+        ) {
+
+            LazyColumn(modifier = modifier.fillMaxSize()) {
+                items(listeCours.size) { index ->
+                    val cours = listeCours[index]
+                    Card(modifier = Modifier.padding(8.dp)) {
+                        Text(
+                            text = cours.nom,
+                            modifier = Modifier.padding(16.dp)
+                        )
+
+                    }
+                }
+            }
+
+        }
+
+
+    }
+}
 
 
 
