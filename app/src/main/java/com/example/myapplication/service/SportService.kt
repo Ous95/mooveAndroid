@@ -1,9 +1,7 @@
 package com.example.myapplication.service
 
-import com.example.myapplication.ui.PokemonListResponse
 import com.example.myapplication.ui.SportResult
-//import com.example.myapplication.ui.SportListResponse
-import com.example.myapplication.ui.SportUiState
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

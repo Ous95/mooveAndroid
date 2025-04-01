@@ -21,7 +21,7 @@ class SportViewModel : ViewModel() {
                 SportUiState(
                     nom = sport.nom,
                     id = sport.id,
-                    style = sport.style
+                    date = sport.date
                 )
             }
         }
